@@ -20,3 +20,41 @@ def get_weather():
         print("Failed to retrieve weather data.")
 
 
+def menu():
+    """
+    Menu system for Part B: Using a unique API (Example: Dog CEO API for random dog images).
+    """
+    print("Choose an option:")
+    print("1. Get a random dog image")
+    print("2. Get a list of dog breeds")
+    print("3. Get a random image of a specific breed")
+    
+    choice = input("Enter choice (1/2/3): ")
+    
+    if choice == "1":
+        response = requests.get("https://dog.ceo/api/breeds/image/random")
+        if response.status_code == 200:
+            print("Random Dog Image URL:", response.json()["message"])
+    
+    elif choice == "2":
+        response = requests.get("https://dog.ceo/api/breeds/list/all")
+        if response.status_code == 200:
+            breeds = response.json()["message"].keys()
+            print("Dog Breeds:", ", ".join(breeds))
+    
+    elif choice == "3":
+        breed = input("Enter a breed name (e.g., bulldog): ")
+        response = requests.get(f"https://dog.ceo/api/breed/{breed}/images/random")
+        if response.status_code == 200:
+            print(f"Random {breed} image:", response.json()["message"])
+        else:
+            print("Breed not found.")
+    else:
+        print("Invalid choice. Try again.")
+
+if __name__ == "__main__":
+    print("Part A: Weather API")
+    get_weather()
+    print("\nPart B: Dog Image API")
+    menu()
+
